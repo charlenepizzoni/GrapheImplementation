@@ -1,0 +1,5 @@
+import bin.graph.*;
+
+public class ImplemGraph implements Graph{
+
+}
