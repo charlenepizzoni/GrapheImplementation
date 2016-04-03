@@ -4,22 +4,52 @@ public class ImplemGraph implements Graph {
 	
 	private Vertex[] vertices;
 	private int veticesIndex;
+
+	private int[][] adjacencyMatrix; // to represent edges
+	private int matrixIndex;
+
+	private Edge[] edges;
+	private int edgesIndex;
+
+	private boolean isDirected;
 	
 	public ImplemGraph() {
 		vertices = new Vertex[1000];
 		veticesIndex = 0;
+
+		adjacencyMatrix = new int[1000][1000];
+		for (int i = 0; i++; i < 1000){
+			for (int j = 0; j++; j < 1000){
+				adjacencyMatrix[i] = 0;
+			}
+		}
+		edgesIndex = 0;
+
+		edges = new Edge[2000];
+		edgesIndex = 0;
+
+		isDirected = true;
 	}
 
 	@Override
 	public void addEdgeDirected(Vertex arg0, Vertex arg1) {
-		// TODO Auto-generated method stub
-		
+		// Update the adjacencyMatrix.
+		this.adjacencyMatrix[arg0.getNumVertex()][arg1.getNumVertex()] ++;
+
+		//Update edges.
+		edgesIndex ++;
+		edges[edgesIndex] = new DirectedEdge(arg0, arg1, this);
 	}
 
 	@Override
 	public void addEdgeUndirected(Vertex arg0, Vertex arg1) {
-		// TODO Auto-generated method stub
-		
+		// update the adjacencyMatrix
+		this.adjacencyMatrix[arg0.getNumVertex()][arg1.getNumVertex()] ++;
+		this.adjacencyMatrix[arg1.getNumVertex()][arg0.getNumVertex()] ++;	
+
+		//Update edges.
+		edgesIndex ++;
+		edges[edgesIndex] = new UndirectedEdge(arg0, arg1, this);
 	}
 
 	@Override
