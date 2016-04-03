@@ -39,6 +39,7 @@ public class ImplemGraph implements Graph {
 		//Update edges.
 		edgesIndex ++;
 		edges[edgesIndex] = new DirectedEdge(arg0, arg1, this);
+		edges[edgesIndex].setEdge(edgesIndex);
 	}
 
 	@Override
@@ -50,6 +51,7 @@ public class ImplemGraph implements Graph {
 		//Update edges.
 		edgesIndex ++;
 		edges[edgesIndex] = new UndirectedEdge(arg0, arg1, this);
+		edges[edgesIndex].setEdge(edgesIndex);
 	}
 
 	@Override
@@ -99,7 +101,13 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public void suppressRelation2(Vertex arg0, Vertex arg1) {
-		// TODO Auto-generated method stub
+//		// Update the adjacencyMatrix.
+//		this.adjacencyMatrix[arg1.getNumVertex()][arg0.getNumVertex()] --;	
+//
+//		// Update edges.
+//		// TODO
+//		edgesIndex ++;
+//		edges[edgesIndex] = new UndirectedEdge(arg0, arg1, this);
 		
 	}
 
