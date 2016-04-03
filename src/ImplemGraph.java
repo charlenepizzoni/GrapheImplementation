@@ -88,6 +88,9 @@ public class ImplemGraph implements Graph {
 		return null;
 	}
 
+//___________________________________________________________________
+// ------- Cette fonction devrait avoir été supprimée ---------------
+// __________________________________________________________________
 	@Override
 	public void suppressRelation1(Object arg0) {
 		// TODO Auto-generated method stub
@@ -120,6 +123,9 @@ public class ImplemGraph implements Graph {
 		} // i >= veticesIndex || done
 	}
 
+//___________________________________________________________________
+// ------- Cette fonction devrait avoir été supprimée ---------------
+// __________________________________________________________________
 	@Override
 	public void suppressVertex2(Object arg0) {
 		// TODO Auto-generated method stub
@@ -127,6 +133,4 @@ public class ImplemGraph implements Graph {
 	}
 
 	
-	
-
 }
