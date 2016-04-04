@@ -98,7 +98,7 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public Vertex[] foundVertex(Edge e) {
-		return new Vertex[] {};
+		return new Vertex[] {/*e.getSource(), e.getDestination()*/};
 	}
 
 //___________________________________________________________________
@@ -111,19 +111,26 @@ public class ImplemGraph implements Graph {
 	}
 
 	@Override
-	public void suppressRelation2(Vertex arg0, Vertex arg1) {
+	public void suppressRelation2(Vertex v1, Vertex v2) {
 //		// Update the adjacencyMatrix.
-//		this.adjacencyMatrix[arg1.getNumVertex()][arg0.getNumVertex()] --;	
+//		this.adjacencyMatrix[v2.getNumVertex()][v1.getNumVertex()] --;	
 //
 //		// Update edges.
-//		// TODO
-//		edgesIndex ++;
-//		edges[edgesIndex] = new UndirectedEdge(arg0, arg1, this);
+		// boolean done = false;
+		// int i = 0;
+		// while (i < edgesIndex && !done) {
+			// if (edges[i].getSource() == v1 && edges[i].getDestination() == v2){
+				// verticesIndex--;
+				// vertices[i] = vertices[verticesIndex];
+				// done = true;
+			// }
+			// i++;
+		// } // i >= verticesIndex || done
 		
 	}
 
 	@Override
-	public void suppressRelation3(Edge arg0) {
+	public void suppressRelation3(Edge edge) {
 		// TODO Auto-generated method stub
 		
 	}
