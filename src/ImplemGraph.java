@@ -18,9 +18,9 @@ public class ImplemGraph implements Graph {
 		veticesIndex = 0;
 
 		adjacencyMatrix = new int[1000][1000];
-		for (int i = 0; i++; i < 1000){
-			for (int j = 0; j++; j < 1000){
-				adjacencyMatrix[i] = 0;
+		for (int i = 0; i < 1000; i++){
+			for (int j = 0; j < 1000; j++){
+				adjacencyMatrix[i] = null;
 			}
 		}
 		edgesIndex = 0;
@@ -34,7 +34,7 @@ public class ImplemGraph implements Graph {
 	@Override
 	public void addEdgeDirected(Vertex arg0, Vertex arg1) {
 		// Update the adjacencyMatrix.
-		this.adjacencyMatrix[arg0.getNumVertex()][arg1.getNumVertex()] ++;
+		this.adjacencyMatrix[(int) arg0.getNumVertex()][(int) arg1.getNumVertex()]++;
 
 		//Update edges.
 		edgesIndex ++;
@@ -45,37 +45,41 @@ public class ImplemGraph implements Graph {
 	@Override
 	public void addEdgeUndirected(Vertex arg0, Vertex arg1) {
 		// update the adjacencyMatrix
-		this.adjacencyMatrix[arg0.getNumVertex()][arg1.getNumVertex()] ++;
-		this.adjacencyMatrix[arg1.getNumVertex()][arg0.getNumVertex()] ++;	
+		this.adjacencyMatrix[(int) arg0.getNumVertex()][(int) arg1.getNumVertex()]++;
+		this.adjacencyMatrix[(int) arg1.getNumVertex()][(int) arg0.getNumVertex()]++;	
 
 		//Update edges.
-		edgesIndex ++;
+		edgesIndex++;
 		edges[edgesIndex] = new UndirectedEdge(arg0, arg1, this);
 		edges[edgesIndex].setEdge(edgesIndex);
 	}
 
 	@Override
 	public void addVertex(Vertex v) {
-		// Test if the vertex is already in the array
-		boolean found = false;
-		int i = 0;
-		while (i < veticesIndex && !found) {
-			if (vertices[i] == v) {
-				found = true;
+		if (v.getGraph() == this) {
+			
+			// Test if the vertex is already in the array
+			boolean found = false;
+			int i = 0;
+			while (i < veticesIndex && !found) {
+				if (vertices[i] == v) {
+					found = true;
+				}
+				i++;
+			} // i >= veticesIndex || found
+			
+			// If the vertex is not in the array, we add it to the array
+			if (!found) {
+				vertices[veticesIndex] = v;
+				veticesIndex++;	
 			}
-			i++;
-		} // i >= veticesIndex || found
-		
-		// If the vertex is not in the array, we add it to the array
-		if (!found) {
-			vertices[veticesIndex] = v;
-			veticesIndex++;	
+			
 		}
 	}
 
 	@Override
 	public int cardGraph() {
-		return veticesIndex;
+		return veticesIndex - 1;
 	}
 
 	@Override
@@ -85,9 +89,8 @@ public class ImplemGraph implements Graph {
 	}
 
 	@Override
-	public Vertex[] foundVertex(Edge arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public Vertex[] foundVertex(Edge e) {
+		return new Vertex[] {};
 	}
 
 //___________________________________________________________________
