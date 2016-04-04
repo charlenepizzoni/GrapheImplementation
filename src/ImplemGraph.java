@@ -2,56 +2,64 @@ import graph.*;
 
 public class ImplemGraph implements Graph {
 	
+	private static final int NB_MAX_EDGES = 2000;
+	private static final int NB_MAX_VERTICES = 1000;
+	
 	private Vertex[] vertices;
-	private int veticesIndex;
+	private int verticesIndex;
 
-	private int[][] adjacencyMatrix; // to represent edges
-	private int matrixIndex;
+//	private int[][] adjacencyMatrix; // to represent edges
+//	private int matrixIndex;
 
 	private Edge[] edges;
 	private int edgesIndex;
 
-	private boolean isDirected;
+	//private boolean isDirected;
 	
 	public ImplemGraph() {
-		vertices = new Vertex[1000];
-		veticesIndex = 0;
+		vertices = new Vertex[NB_MAX_VERTICES];
+		verticesIndex = 0;
 
-		adjacencyMatrix = new int[1000][1000];
-		for (int i = 0; i < 1000; i++){
-			for (int j = 0; j < 1000; j++){
-				adjacencyMatrix[i] = null;
-			}
-		}
+		// adjacencyMatrix = new int[NB_MAX_VERTICES][NB_MAX_VERTICES];
+		// for (int i = 0; i < NB_MAX_VERTICES; i++){
+			// for (int j = 0; j < NB_MAX_VERTICES; j++){
+				// adjacencyMatrix[i][j] = 0;
+			// }
+		// }
+		// edgesIndex = 0;
+
+		edges = new Edge[NB_MAX_EDGES];
 		edgesIndex = 0;
 
-		edges = new Edge[2000];
-		edgesIndex = 0;
-
-		isDirected = true;
+		//isDirected = true;
 	}
 
 	@Override
-	public void addEdgeDirected(Vertex arg0, Vertex arg1) {
+	public void addEdgeDirected(Vertex v1, Vertex v2) {
+		if (v1.getGraph() == this && v2.getGraph() == this && edges.length < NB_MAX_EDGES){
 		// Update the adjacencyMatrix.
-		this.adjacencyMatrix[(int) arg0.getNumVertex()][(int) arg1.getNumVertex()]++;
+		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
 
 		//Update edges.
-		edgesIndex ++;
-		edges[edgesIndex] = new DirectedEdge(arg0, arg1, this);
-		edges[edgesIndex].setEdge(edgesIndex);
+			edges[edgesIndex] = new DirectedEdge(v1, v2, this);
+			edges[edgesIndex].setEdge(edgesIndex);
+			edgesIndex++;
+		}
 	}
 
 	@Override
-	public void addEdgeUndirected(Vertex arg0, Vertex arg1) {
-		// update the adjacencyMatrix
-		this.adjacencyMatrix[(int) arg0.getNumVertex()][(int) arg1.getNumVertex()]++;
-		this.adjacencyMatrix[(int) arg1.getNumVertex()][(int) arg0.getNumVertex()]++;	
+	public void addEdgeUndirected(Vertex v1, Vertex v2) {
 
+		if (v1.getGraph() == this && v2.getGraph() == this && edges.length < NB_MAX_EDGES){
+		// update the adjacencyMatrix
+		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
+		//this.adjacencyMatrix[(int) v2.getNumVertex()][(int) v1.getNumVertex()]++;	
+		
 		//Update edges.
-		edgesIndex++;
-		edges[edgesIndex] = new UndirectedEdge(arg0, arg1, this);
-		edges[edgesIndex].setEdge(edgesIndex);
+			edges[edgesIndex] = new UndirectedEdge(v1, v2, this);
+			edges[edgesIndex].setEdge(edgesIndex);
+			edgesIndex++;
+		}
 	}
 
 	@Override
@@ -61,17 +69,17 @@ public class ImplemGraph implements Graph {
 			// Test if the vertex is already in the array
 			boolean found = false;
 			int i = 0;
-			while (i < veticesIndex && !found) {
+			while (i < verticesIndex && !found) {
 				if (vertices[i] == v) {
 					found = true;
 				}
 				i++;
-			} // i >= veticesIndex || found
+			} // i >= verticesIndex || found
 			
 			// If the vertex is not in the array, we add it to the array
 			if (!found) {
-				vertices[veticesIndex] = v;
-				veticesIndex++;	
+				vertices[verticesIndex] = v;
+				verticesIndex++;	
 			}
 			
 		}
@@ -79,7 +87,7 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public int cardGraph() {
-		return veticesIndex - 1;
+		return verticesIndex - 1;
 	}
 
 	@Override
@@ -124,14 +132,14 @@ public class ImplemGraph implements Graph {
 	public void suppressVertex1(Vertex v) {
 		boolean done = false;
 		int i = 0;
-		while (i < veticesIndex && !done) {
+		while (i < verticesIndex && !done) {
 			if (vertices[i] == v) {
-				veticesIndex--;
-				vertices[i] = vertices[veticesIndex];
+				verticesIndex--;
+				vertices[i] = vertices[verticesIndex];
 				done = true;
 			}
 			i++;
-		} // i >= veticesIndex || done
+		} // i >= verticesIndex || done
 	}
 
 //___________________________________________________________________
