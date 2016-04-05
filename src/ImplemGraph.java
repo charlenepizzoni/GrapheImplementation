@@ -130,6 +130,23 @@ public class ImplemGraph implements Graph {
 			if (vertices[i].getNumVertex().equals(vertexID)) {
 				verticesIndex--;
 				vertices[i] = vertices[verticesIndex];
+
+				// Remove all edges connected to the vertex
+				int j = 0;
+				while (j < verticesIndex) {
+					Edge edge = this.foundEdge(vertices[i], vertices[j]);
+					if (edge != null) {
+						this.suppressRelation(edge);
+					} else {
+						this.foundEdge(vertices[j], vertices[i]);
+						if (edge != null) {
+							this.suppressRelation(edge);
+						} else {
+							j++;
+						}
+					}
+				}
+
 				done = true;
 			}
 			i++;
