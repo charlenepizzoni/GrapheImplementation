@@ -163,6 +163,7 @@ public class ImplemGraph implements Graph {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		
+		// Vertices
 		sb.append("Vertices : \n");
 		int i = 0;
 		while (i < verticesIndex) {
@@ -173,11 +174,16 @@ public class ImplemGraph implements Graph {
 			i++;
 		} // i >= verticesIndex
 		
+		// Edges
 		sb.append("\nEdges : \n");
 		int j = 0;
 		while (j < edgesIndex) {
 			sb.append(edges[j].getFirstVertex().getNumVertex());
-			sb.append(" -> ");
+			if (edges[j] instanceof UndirectedEdge) {
+				sb.append(" <-> ");
+			} else {
+				sb.append(" -> ");				
+			}
 			sb.append(edges[j].getSecondVertex().getNumVertex());
 			sb.append("\n");
 			j++;
