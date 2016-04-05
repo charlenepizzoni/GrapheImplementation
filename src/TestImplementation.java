@@ -35,6 +35,7 @@ public class TestImplementation {
 		System.out.println(g1);
 		
 		g1.addEdgeUndirected(v1, v6);
+		g1.addEdgeDirected(v1, v2);
 		System.out.println(g1);
 		
 		g1.suppressRelation(v5, v5);

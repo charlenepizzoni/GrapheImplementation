@@ -1,5 +1,12 @@
 import graph.*;
 
+/**
+ * Implementation of interface graph.
+ * 
+ * This implementation is build with two arrays : 
+ * one for the vertices, one other for the edges.
+ * 
+ */
 public class ImplemGraph implements Graph {
 	
 	private static final int NB_MAX_EDGES = 2000;
@@ -13,6 +20,13 @@ public class ImplemGraph implements Graph {
 
 	private boolean isDirected;
 	
+	/**
+	 * Build a new Graph. This graph is either directed or  undirected.
+	 * If the graph is directed, only directed edge can be added.
+	 * If the graph is undirected, only undirected edge can be added.
+	 * 
+	 * @param isDirected True is the graph is directed, false either.
+	 */
 	public ImplemGraph(boolean isDirected) {
 		vertices = new Vertex[NB_MAX_VERTICES];
 		verticesIndex = 0;
@@ -76,9 +90,9 @@ public class ImplemGraph implements Graph {
 
 		while (i < edgesIndex && !found) {
 			i++;
-			if (edges.getFirstVertex() == vertex1 && edges.getSecondVertex() == vertex2){
+			if (edges[i].getFirstVertex() == vertex1 && edges[i].getSecondVertex() == vertex2){
 				found = true;
-			} else if (!isDirected && edges.getFirstVertex() == vertex2 && edges.getSecondVertex() == vertex1){
+			} else if (!isDirected && edges[i].getFirstVertex() == vertex2 && edges[i].getSecondVertex() == vertex1){
 				found = true;
 			}
 		}
@@ -93,19 +107,22 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public void suppressRelation(int edgeID) {
+		edgesIndex--;		
 		edges[edgeID] = edges[edgesIndex];
 		edges[edgeID].setEdge(edgeID);
-		edgesIndex--;		
 	}
 
 	@Override
 	public void suppressRelation(Edge edge) {
-		this.suppressRelation(edge.getNumEdge());
+		this.suppressRelation(edge.getEdge());
 	}
 
 	@Override
 	public void suppressRelation(Vertex vertex1, Vertex vertex2) {
-		this.suppressRelation(this.foundEdge(vertex1, vertex2));
+		Edge edge = this.foundEdge(vertex1, vertex2);
+		if (edge != null) {
+			this.suppressRelation(edge);
+		}
 	}
 
 	@Override
@@ -113,7 +130,17 @@ public class ImplemGraph implements Graph {
 		boolean done = false;
 		int i = 0;
 		while (i < verticesIndex && !done) {
-			if (vertices[i] == vertex) {
+			if (vertices[i] == vertex) {			
+				// Remove all edges connected to the vertex
+				int j = 0;
+				while (j < edgesIndex) {
+					if (edges[j].getFirstVertex() == vertices[i] || edges[j].getSecondVertex() == vertices[i]) {
+						suppressRelation(edges[j]);
+					}
+					j++;
+				}
+				
+				// Remove the vertex from the array
 				verticesIndex--;
 				vertices[i] = vertices[verticesIndex];
 				done = true;
@@ -123,30 +150,12 @@ public class ImplemGraph implements Graph {
 	}
 
 	@Override
-	public void suppressVertex(Object vertexID) {
+	public void suppressVertex(int vertexID) {
 		boolean done = false;
 		int i = 0;
 		while (i < verticesIndex && !done) {
-			if (vertices[i].getNumVertex().equals(vertexID)) {
-				verticesIndex--;
-				vertices[i] = vertices[verticesIndex];
-
-				// Remove all edges connected to the vertex
-				int j = 0;
-				while (j < verticesIndex) {
-					Edge edge = this.foundEdge(vertices[i], vertices[j]);
-					if (edge != null) {
-						this.suppressRelation(edge);
-					} else {
-						this.foundEdge(vertices[j], vertices[i]);
-						if (edge != null) {
-							this.suppressRelation(edge);
-						} else {
-							j++;
-						}
-					}
-				}
-
+			if (vertices[i].getNumVertex() == vertexID) {
+				suppressVertex(vertices[i]);
 				done = true;
 			}
 			i++;
