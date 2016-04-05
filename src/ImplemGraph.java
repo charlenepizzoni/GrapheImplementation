@@ -36,7 +36,7 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public void addEdgeDirected(Vertex vertex1, Vertex vertex2) {
-		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edges.length < NB_MAX_EDGES){
+		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edgesIndex < NB_MAX_EDGES){
 		// Update the adjacencyMatrix.
 		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
 
@@ -50,7 +50,7 @@ public class ImplemGraph implements Graph {
 	@Override
 	public void addEdgeUndirected(Vertex vertex1, Vertex vertex2) {
 
-		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edges.length < NB_MAX_EDGES){
+		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edgesIndex < NB_MAX_EDGES){
 		// update the adjacencyMatrix
 		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
 		//this.adjacencyMatrix[(int) v2.getNumVertex()][(int) v1.getNumVertex()]++;	
@@ -159,6 +159,31 @@ public class ImplemGraph implements Graph {
 		} // i >= verticesIndex || done
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Vertices : \n");
+		int i = 0;
+		while (i < verticesIndex) {
+			sb.append(vertices[i].getNumVertex());
+			if (i != verticesIndex - 1) {
+				sb.append(" / ");
+			}
+			i++;
+		} // i >= verticesIndex
+		
+		sb.append("\nEdges : \n");
+		int j = 0;
+		while (j < edgesIndex) {
+			sb.append(edges[j].getFirstVertex().getNumVertex());
+			sb.append(" -> ");
+			sb.append(edges[j].getSecondVertex().getNumVertex());
+			sb.append("\n");
+			j++;
+		} // j >= edgesIndex
 
+		return sb.toString();
+	}
 	
 }
