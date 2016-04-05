@@ -35,42 +35,42 @@ public class ImplemGraph implements Graph {
 	}
 
 	@Override
-	public void addEdgeDirected(Vertex v1, Vertex v2) {
-		if (v1.getGraph() == this && v2.getGraph() == this && edges.length < NB_MAX_EDGES){
+	public void addEdgeDirected(Vertex vertex1, Vertex vertex2) {
+		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edges.length < NB_MAX_EDGES){
 		// Update the adjacencyMatrix.
 		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
 
 		//Update edges.
-			edges[edgesIndex] = new DirectedEdge(v1, v2, this);
+			edges[edgesIndex] = new DirectedEdge(vertex1, vertex2, this);
 			edges[edgesIndex].setEdge(edgesIndex);
 			edgesIndex++;
 		}
 	}
 
 	@Override
-	public void addEdgeUndirected(Vertex v1, Vertex v2) {
+	public void addEdgeUndirected(Vertex vertex1, Vertex vertex2) {
 
-		if (v1.getGraph() == this && v2.getGraph() == this && edges.length < NB_MAX_EDGES){
+		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edges.length < NB_MAX_EDGES){
 		// update the adjacencyMatrix
 		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
 		//this.adjacencyMatrix[(int) v2.getNumVertex()][(int) v1.getNumVertex()]++;	
 		
 		//Update edges.
-			edges[edgesIndex] = new UndirectedEdge(v1, v2, this);
+			edges[edgesIndex] = new UndirectedEdge(vertex1, vertex2, this);
 			edges[edgesIndex].setEdge(edgesIndex);
 			edgesIndex++;
 		}
 	}
 
 	@Override
-	public void addVertex(Vertex v) {
-		if (v.getGraph() == this) {
+	public void addVertex(Vertex vertex) {
+		if (vertex.getGraph() == this) {
 			
 			// Test if the vertex is already in the array
 			boolean found = false;
 			int i = 0;
 			while (i < verticesIndex && !found) {
-				if (vertices[i] == v) {
+				if (vertices[i] == vertex) {
 					found = true;
 				}
 				i++;
@@ -78,7 +78,7 @@ public class ImplemGraph implements Graph {
 			
 			// If the vertex is not in the array, we add it to the array
 			if (!found) {
-				vertices[verticesIndex] = v;
+				vertices[verticesIndex] = vertex;
 				verticesIndex++;	
 			}
 			
@@ -91,27 +91,30 @@ public class ImplemGraph implements Graph {
 	}
 
 	@Override
-	public Edge foundEdge(Vertex arg0, Vertex arg1) {
+	public Edge foundEdge(Vertex vertex1, Vertex vertex2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Vertex[] foundVertex(Edge e) {
-		return new Vertex[] {/*e.getSource(), e.getDestination()*/};
+	public Vertex[] foundVertex(Edge edge) {
+		return new Vertex[] {edge.getFirstVertex(), edge.getSecondVertex()};
 	}
 
-//___________________________________________________________________
-// ------- Cette fonction devrait avoir été supprimée ---------------
-// __________________________________________________________________
 	@Override
-	public void suppressRelation1(Object arg0) {
+	public void suppressRelation(Object edgeID) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void suppressRelation2(Vertex v1, Vertex v2) {
+	public void suppressRelation(Edge edge) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void suppressRelation(Vertex vertex1, Vertex vertex2) {
 //		// Update the adjacencyMatrix.
 //		this.adjacencyMatrix[v2.getNumVertex()][v1.getNumVertex()] --;	
 //
@@ -126,21 +129,14 @@ public class ImplemGraph implements Graph {
 			// }
 			// i++;
 		// } // i >= verticesIndex || done
-		
 	}
 
 	@Override
-	public void suppressRelation3(Edge edge) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void suppressVertex1(Vertex v) {
+	public void suppressVertex(Vertex vertex) {
 		boolean done = false;
 		int i = 0;
 		while (i < verticesIndex && !done) {
-			if (vertices[i] == v) {
+			if (vertices[i] == vertex) {
 				verticesIndex--;
 				vertices[i] = vertices[verticesIndex];
 				done = true;
@@ -149,14 +145,20 @@ public class ImplemGraph implements Graph {
 		} // i >= verticesIndex || done
 	}
 
-//___________________________________________________________________
-// ------- Cette fonction devrait avoir été supprimée ---------------
-// __________________________________________________________________
 	@Override
-	public void suppressVertex2(Object arg0) {
-		// TODO Auto-generated method stub
-		
+	public void suppressVertex(Object vertexID) {
+		boolean done = false;
+		int i = 0;
+		while (i < verticesIndex && !done) {
+			if (vertices[i].getNumVertex().equals(vertexID)) {
+				verticesIndex--;
+				vertices[i] = vertices[verticesIndex];
+				done = true;
+			}
+			i++;
+		} // i >= verticesIndex || done
 	}
+
 
 	
 }
