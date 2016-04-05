@@ -4,8 +4,8 @@ import graph.Vertex;
 public class TestImplementation {
 
 	public static void main(String[] args) {
-		Graph g1 = new ImplemGraph();
-		Graph g2 = new ImplemGraph();
+		Graph g1 = new ImplemGraph(false);
+		Graph g2 = new ImplemGraph(false);
 		
 		Vertex v1 = new Vertex(1, g1);
 		Vertex v2 = new Vertex(2, g1);

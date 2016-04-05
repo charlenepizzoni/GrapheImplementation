@@ -8,39 +8,24 @@ public class ImplemGraph implements Graph {
 	private Vertex[] vertices;
 	private int verticesIndex;
 
-//	private int[][] adjacencyMatrix; // to represent edges
-//	private int matrixIndex;
-
 	private Edge[] edges;
 	private int edgesIndex;
 
-	//private boolean isDirected;
+	private boolean isDirected;
 	
-	public ImplemGraph() {
+	public ImplemGraph(boolean isDirected) {
 		vertices = new Vertex[NB_MAX_VERTICES];
 		verticesIndex = 0;
-
-		// adjacencyMatrix = new int[NB_MAX_VERTICES][NB_MAX_VERTICES];
-		// for (int i = 0; i < NB_MAX_VERTICES; i++){
-			// for (int j = 0; j < NB_MAX_VERTICES; j++){
-				// adjacencyMatrix[i][j] = 0;
-			// }
-		// }
-		// edgesIndex = 0;
 
 		edges = new Edge[NB_MAX_EDGES];
 		edgesIndex = 0;
 
-		//isDirected = true;
+		this.isDirected = isDirected;
 	}
 
 	@Override
 	public void addEdgeDirected(Vertex vertex1, Vertex vertex2) {
-		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edgesIndex < NB_MAX_EDGES){
-		// Update the adjacencyMatrix.
-		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
-
-		//Update edges.
+		if (isDirected && vertex1.getGraph() == this && vertex2.getGraph() == this && edgesIndex < NB_MAX_EDGES){
 			edges[edgesIndex] = new DirectedEdge(vertex1, vertex2, this);
 			edges[edgesIndex].setEdge(edgesIndex);
 			edgesIndex++;
@@ -49,13 +34,7 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public void addEdgeUndirected(Vertex vertex1, Vertex vertex2) {
-
-		if (vertex1.getGraph() == this && vertex2.getGraph() == this && edgesIndex < NB_MAX_EDGES){
-		// update the adjacencyMatrix
-		//this.adjacencyMatrix[(int) v1.getNumVertex()][(int) v2.getNumVertex()]++;
-		//this.adjacencyMatrix[(int) v2.getNumVertex()][(int) v1.getNumVertex()]++;	
-		
-		//Update edges.
+		if (!isDirected && vertex1.getGraph() == this && vertex2.getGraph() == this && edgesIndex < NB_MAX_EDGES){
 			edges[edgesIndex] = new UndirectedEdge(vertex1, vertex2, this);
 			edges[edgesIndex].setEdge(edgesIndex);
 			edgesIndex++;
@@ -87,13 +66,24 @@ public class ImplemGraph implements Graph {
 
 	@Override
 	public int cardGraph() {
-		return verticesIndex - 1;
+		return verticesIndex;
 	}
 
 	@Override
 	public Edge foundEdge(Vertex vertex1, Vertex vertex2) {
-		// TODO Auto-generated method stub
-		return null;
+		boolean found = false;
+		int i = -1;
+
+		while (i < edgesIndex && !found) {
+			i++;
+			if (edges.getFirstVertex() == vertex1 && edges.getSecondVertex() == vertex2){
+				found = true;
+			} else if (!isDirected && edges.getFirstVertex() == vertex2 && edges.getSecondVertex() == vertex1){
+				found = true;
+			}
+		}
+
+		return found ? edges[i] : null;
 	}
 
 	@Override
@@ -102,33 +92,20 @@ public class ImplemGraph implements Graph {
 	}
 
 	@Override
-	public void suppressRelation(Object edgeID) {
-		// TODO Auto-generated method stub
-		
+	public void suppressRelation(int edgeID) {
+		edges[edgeID] = edges[edgesIndex];
+		edges[edgeID].setEdge(edgeID);
+		edgesIndex--;		
 	}
 
 	@Override
 	public void suppressRelation(Edge edge) {
-		// TODO Auto-generated method stub
-		
+		this.suppressRelation(edge.getNumEdge());
 	}
 
 	@Override
 	public void suppressRelation(Vertex vertex1, Vertex vertex2) {
-//		// Update the adjacencyMatrix.
-//		this.adjacencyMatrix[v2.getNumVertex()][v1.getNumVertex()] --;	
-//
-//		// Update edges.
-		// boolean done = false;
-		// int i = 0;
-		// while (i < edgesIndex && !done) {
-			// if (edges[i].getSource() == v1 && edges[i].getDestination() == v2){
-				// verticesIndex--;
-				// vertices[i] = vertices[verticesIndex];
-				// done = true;
-			// }
-			// i++;
-		// } // i >= verticesIndex || done
+		this.suppressRelation(this.foundEdge(vertex1, vertex2));
 	}
 
 	@Override
