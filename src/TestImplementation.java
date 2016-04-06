@@ -42,7 +42,18 @@ public class TestImplementation {
 		System.out.println(g1);
 		
 		g1.suppressVertex(2);
+		System.out.println(g1.cardGraph());
 		System.out.println(g1);
+		
+		System.out.println("Neighbors of v3 :");
+		for (Vertex v : g1.getNeighbors(v3)) {
+			System.out.println(v.getNumVertex());
+		}
+		
+		System.out.println("Neighbors of v5 :");
+		for (Vertex v : g1.getNeighbors(v5)) {
+			System.out.println(v.getNumVertex());
+		}
 	}
 	
 }

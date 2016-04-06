@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import graph.*;
 
 /**
@@ -160,6 +162,23 @@ public class ImplemGraph implements Graph {
 			}
 			i++;
 		} // i >= verticesIndex || done
+	}
+	
+	public Vertex[] getNeighbors(Vertex vertex) {
+		Vertex[] neighbors = new Vertex[NB_MAX_VERTICES];
+		int i = 0;
+		int j = 0;
+		while (j < edgesIndex) {
+			if (edges[j].getFirstVertex() == vertex) {
+				neighbors[i] = edges[j].getSecondVertex();
+				i++;
+			} else if (edges[j].getSecondVertex() == vertex) {
+				neighbors[i] = edges[j].getFirstVertex();
+				i++;
+			}
+			j++;
+		}
+		return Arrays.copyOf(neighbors, i);
 	}
 
 	@Override
